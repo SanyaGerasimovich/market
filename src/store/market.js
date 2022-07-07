@@ -3,7 +3,8 @@ import axios from 'axios'
 
 export default {
     state: {
-        market: null,
+        choco: {},
+        market: {},
         id: null
     },
     getters: {
@@ -15,6 +16,9 @@ export default {
             // console.log(i)
             return state.market
                 //return state.market.find(item => item.id === choco)
+        },
+        getChoco: (state) => {
+            return state.choco;
         }
     },
     mutations: {
@@ -24,6 +28,9 @@ export default {
         SET_ID: (state, payload) => {
             state.id = payload
             console.log(state.id)
+        },
+        setChoco: (state, data) => {
+            state.choco = data;
         }
     },
     actions: {
@@ -34,6 +41,10 @@ export default {
         },
         GET_CHOCO: ({commit}, payload) => {
             commit('SET_ID', payload)
+        },
+        fetchChocoById: async (context, id) => {
+            const { data } = await axios.get(`https://jsonplaceholder.typicode.com/photos/${id}`);
+            context.commit("setChoco", data);
         }
     }
 }
